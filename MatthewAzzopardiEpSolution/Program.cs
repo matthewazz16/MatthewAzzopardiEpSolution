@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using MatthewEpSol.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PollDbContext>(options =>
+    options.UseInMemoryDatabase("PollDb")); // using in-memory DB for testing
+
+builder.Services.AddScoped<PollRepository>();
 
 var app = builder.Build();
 
@@ -22,6 +30,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Poll}/{action=Create}/{id?}");
 
 app.Run();

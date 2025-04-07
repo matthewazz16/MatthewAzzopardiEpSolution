@@ -12,7 +12,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MatthewEpSol.DataAccess\MatthewEpSol.DataAccess.csproj" />
+    <ProjectReference Include="..\MatthewEpSol.domain\MatthewEpSol.domain.csproj" />
   </ItemGroup>
 
 </Project>

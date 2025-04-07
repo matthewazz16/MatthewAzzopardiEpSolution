@@ -12,11 +12,10 @@ namespace MatthewEpSol.DataAccess
    
     public class PollRepository
     {
-        private readonly PollDbContext _context;
-
-        public PollRepository(PollDbContext context)
+        public void CreatePoll(Poll poll, PollDbContext context)
         {
-            _context = context;
+            context.Polls.Add(poll);
+            context.SaveChanges();
         }
     }
 }
