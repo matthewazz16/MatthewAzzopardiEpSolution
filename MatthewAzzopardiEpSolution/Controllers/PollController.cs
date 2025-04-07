@@ -56,10 +56,6 @@ namespace MatthewAzzopardiEpSolution.Controllers
             return View(poll);
         }
 
-
-
-
-
         public IActionResult AllPolls()
         {
             var context = HttpContext.RequestServices.GetService<PollDbContext>();
@@ -69,6 +65,22 @@ namespace MatthewAzzopardiEpSolution.Controllers
 
             return View(sortedPolls);
 
+        }
+
+        [HttpPost]
+        public IActionResult Vote(int pollId, int option)
+        {
+            if (ModelState.IsValid)
+            {
+                var context = HttpContext.RequestServices.GetService<PollDbContext>();
+
+                _pollRepository.Vote(pollId, option);
+
+               
+                return RedirectToAction("AllPolls");
+            }
+
+            return View();
         }
     }
 }
