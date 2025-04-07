@@ -22,12 +22,22 @@ namespace MatthewAzzopardiEpSolution.Controllers
         [HttpPost]
         public IActionResult Create(Poll poll) {
             if (ModelState.IsValid) {
-                using var context = HttpContext.RequestServices.GetService<PollDbContext>();
+                var context = HttpContext.RequestServices.GetService<PollDbContext>();
                 _pollRepository.CreatePoll(poll, context);
 
-                return RedirectToAction("Create");
+                return RedirectToAction("AllPolls");
             }
             return View(poll);
+        }
+
+        public IActionResult AllPolls() {
+            var context = HttpContext.RequestServices.GetService<PollDbContext>();
+            var polls = _pollRepository.GetPolls(context);
+
+            var sortedPolls = polls.OrderByDescending(p => p.DateCreated).ToList();
+
+            return View(sortedPolls);
+
         }
     }
 }

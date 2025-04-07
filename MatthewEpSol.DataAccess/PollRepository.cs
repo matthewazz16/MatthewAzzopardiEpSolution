@@ -17,5 +17,9 @@ namespace MatthewEpSol.DataAccess
             context.Polls.Add(poll);
             context.SaveChanges();
         }
+
+        public List<Poll> GetPolls(PollDbContext context) { 
+            return context.Polls.ToList();
+        }
     }
 }

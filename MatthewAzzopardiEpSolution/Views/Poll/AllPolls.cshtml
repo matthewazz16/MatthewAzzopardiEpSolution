@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<MatthewEpSol.domain.Poll>
+
+<h2>All Polls</h2>
+
+@foreach (var poll in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4>@poll.Title</h4>
+            <ul>
+                <li>@poll.Option1Text (@poll.Option1VoteCount votes)</li>
+                <li>@poll.Option2Text (@poll.Option2VoteCount votes)</li>
+                <li>@poll.Option3Text (@poll.Option3VoteCount votes)</li>
+            </ul>
+
+            <p><small>Created on: @poll.DateCreated.ToString("dd MMM yyyy HH:mm")</small></p>
+
+            <button class="btn btn-primary btn-sm" disabled>Vote (Coming soon)</button>
+        </div>
+    </div>
+}
+
