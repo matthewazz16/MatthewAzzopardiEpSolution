@@ -41,24 +41,22 @@ namespace MatthewEpSol.DataAccess
             return JsonSerializer.Deserialize<List<Poll>>(json) ?? new List<Poll>();
         }
 
-        public void Vote(int pollId, int option)
+        public void Vote(int pollId, int option, PollDbContext context)
         {
-            var polls = GetPolls(null);
-
+            var polls = GetPolls(context);
             var poll = polls.FirstOrDefault(p => p.Id == pollId);
+
             if (poll != null)
             {
-                switch (option)
-                {
-                    case 1: poll.Option1VoteCount++; break;
-                    case 2: poll.Option2VoteCount++; break;
-                    case 3: poll.Option3VoteCount++; break;
-                }
+                if (option == 1) poll.Option1VoteCount++;
+                else if (option == 2) poll.Option2VoteCount++;
+                else if (option == 3) poll.Option3VoteCount++;
 
                 var json = JsonSerializer.Serialize(polls, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_filePath, json);
             }
         }
+
     }
- }
+}
 

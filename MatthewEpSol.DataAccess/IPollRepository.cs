@@ -12,6 +12,7 @@ namespace MatthewEpSol.DataAccess
         void CreatePoll(Poll poll, PollDbContext context);
         List<Poll> GetPolls(PollDbContext context);
 
-        void Vote(int pollId, int option);
+       
+        void Vote(int pollId, int option, PollDbContext context);
     }
 }

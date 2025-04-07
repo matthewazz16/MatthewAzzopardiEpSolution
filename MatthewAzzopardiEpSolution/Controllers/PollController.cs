@@ -2,6 +2,8 @@
 using MatthewEpSol.DataAccess;
 using MatthewEpSol.domain;
 using System.Linq;
+using MatthewAzzopardiEpSolution.Filters;
+using MatthewAzzopardiEpSolution.Helpers;
 
 
 
@@ -66,22 +68,23 @@ namespace MatthewAzzopardiEpSolution.Controllers
             return View(sortedPolls);
 
         }
-
         [HttpPost]
+        [VoteOnce]
         public IActionResult Vote(int pollId, int option)
         {
-            if (ModelState.IsValid)
-            {
-                var context = HttpContext.RequestServices.GetService<PollDbContext>();
+            var context = HttpContext.RequestServices.GetService<PollDbContext>();
+            _pollRepository.Vote(pollId, option, context);
 
-                _pollRepository.Vote(pollId, option);
+            var username = HttpContext.Session.GetString("Username");
+            var votedPollsKey = $"VotedPolls_{username}";
+            var votedPolls = HttpContext.Session.GetObjectFromJson<List<string>>(votedPollsKey) ?? new List<string>();
+            votedPolls.Add(pollId.ToString());
+            HttpContext.Session.SetObjectAsJson(votedPollsKey, votedPolls);
 
-               
-                return RedirectToAction("AllPolls");
-            }
-
-            return View();
+            return RedirectToAction("AllPolls");
         }
+
+        
     }
 }
 

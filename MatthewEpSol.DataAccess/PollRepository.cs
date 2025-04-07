@@ -30,31 +30,16 @@ namespace MatthewEpSol.DataAccess
             return context.Polls.ToList();
         }
 
-        public void Vote(int pollId, int option)
+        public void Vote(int pollId, int option, PollDbContext context)
         {
-            var poll = _context.Polls.FirstOrDefault(p => p.Id == pollId);
-
-            if (poll != null) {
-                switch (option) {
-                    case 1:
-                        poll.Option1VoteCount++;
-                        break;
-                    case 2:
-                        poll.Option2VoteCount++;
-                        break;
-                    case 3:
-                        poll.Option3VoteCount++;
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid option");
-
-                }
-                _context.SaveChanges();
-
-            }
-            else
+            var poll = context.Polls.FirstOrDefault(p => p.Id == pollId);
+            if (poll != null)
             {
-                throw new InvalidOperationException("Poll not found");
+                if (option == 1) poll.Option1VoteCount++;
+                else if (option == 2) poll.Option2VoteCount++;
+                else if (option == 3) poll.Option3VoteCount++;
+
+                context.SaveChanges();
             }
         }
     }
