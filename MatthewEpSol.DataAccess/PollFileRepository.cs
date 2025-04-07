@@ -17,7 +17,14 @@ namespace MatthewEpSol.DataAccess
         public void CreatePoll(Poll poll, PollDbContext context)
         {
             var polls = GetPolls(null);
+
+            int maxId = polls.Any() ? polls.Max(p => p.Id) : 0;
+            poll.Id = maxId + 1;
+
+            
+
             polls.Add(poll);
+
 
             var json = JsonSerializer.Serialize(polls, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_filePath, json);
