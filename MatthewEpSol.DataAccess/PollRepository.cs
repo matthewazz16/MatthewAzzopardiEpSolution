@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MatthewEpSol.domain;
-using MatthewEpSol.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using MatthewEpSol.DataAccess;
 
 
 namespace MatthewEpSol.DataAccess
 {
    
-    public class PollRepository
+    public class PollRepository : IPollRepository
     {
+        private readonly PollDbContext _context;
+
+        public PollRepository(PollDbContext context)
+        {
+            _context = context;
+        }
+
         public void CreatePoll(Poll poll, PollDbContext context)
         {
             context.Polls.Add(poll);
@@ -21,14 +28,6 @@ namespace MatthewEpSol.DataAccess
 
         public List<Poll> GetPolls(PollDbContext context) { 
             return context.Polls.ToList();
-        }
-
-        private readonly PollDbContext _context;
-
-      
-        public PollRepository(PollDbContext context)
-        {
-            _context = context;
         }
 
         public void Vote(int pollId, int option)

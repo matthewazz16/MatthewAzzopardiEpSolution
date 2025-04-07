@@ -9,10 +9,10 @@ namespace MatthewAzzopardiEpSolution.Controllers
 {
     public class PollController : Controller
     {
-        private readonly PollRepository _pollRepository;
+        private readonly IPollRepository _pollRepository;
 
 
-        public PollController(PollRepository pollRepository)
+        public PollController(IPollRepository pollRepository)
         {
             _pollRepository = pollRepository;
         }

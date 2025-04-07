@@ -9,7 +9,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PollDbContext>(options =>
     options.UseInMemoryDatabase("PollDb")); // using in-memory DB for testing
 
-builder.Services.AddScoped<PollRepository>();
+builder.Services.AddScoped<IPollRepository, PollFileRepository>();
+
 
 var app = builder.Build();
 

@@ -10,20 +10,20 @@ using MatthewEpSol.domain;
 
 namespace MatthewEpSol.DataAccess
 {
-    public class PollFileRepository
+    public class PollFileRepository : IPollRepository
     {
         private readonly string _filePath = "polls.json";
 
-        public void CreatePoll(Poll poll)
+        public void CreatePoll(Poll poll, PollDbContext context)
         {
-            var polls = GetPolls();
+            var polls = GetPolls(null);
             polls.Add(poll);
 
             var json = JsonSerializer.Serialize(polls, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_filePath, json);
         }
 
-        public List<Poll> GetPolls()
+        public List<Poll> GetPolls(PollDbContext context)
         {
             if (!File.Exists(_filePath))
             {
@@ -32,6 +32,25 @@ namespace MatthewEpSol.DataAccess
 
             var json = File.ReadAllText(_filePath);
             return JsonSerializer.Deserialize<List<Poll>>(json) ?? new List<Poll>();
+        }
+
+        public void Vote(int pollId, int option)
+        {
+            var polls = GetPolls(null);
+
+            var poll = polls.FirstOrDefault(p => p.Id == pollId);
+            if (poll != null)
+            {
+                switch (option)
+                {
+                    case 1: poll.Option1VoteCount++; break;
+                    case 2: poll.Option2VoteCount++; break;
+                    case 3: poll.Option3VoteCount++; break;
+                }
+
+                var json = JsonSerializer.Serialize(polls, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_filePath, json);
+            }
         }
     }
  }
