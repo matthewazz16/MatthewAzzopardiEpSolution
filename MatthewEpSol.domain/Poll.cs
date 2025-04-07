@@ -8,7 +8,7 @@ namespace MatthewEpSol.domain
 {
     public class Poll
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
 
         public string Option1Text { get; set; }
